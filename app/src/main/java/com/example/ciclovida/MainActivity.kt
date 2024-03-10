@@ -1,8 +1,12 @@
 package com.example.ciclovida
 
+import android.content.ActivityNotFoundException
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat
 import com.example.ciclovida.Model.Dessert
 import com.example.ciclovida.ui.theme.CicloVidaTheme
 
@@ -74,6 +79,28 @@ fun determineDessertToShow(
     }
 
     return dessertToShow
+}
+private fun shareSoldDessertsInformation(intentContext: Context, dessertsSold: Int, revenue: Int) {
+    val sendIntent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(
+            Intent.EXTRA_TEXT,
+            intentContext.getString(R.string.share_text, dessertsSold, revenue)
+        )
+        type = "text/plain"
+    }
+
+    val shareIntent = Intent.createChooser(sendIntent, null)
+
+    try {
+        ContextCompat.startActivity(intentContext, shareIntent, null)
+    } catch (e: ActivityNotFoundException) {
+        Toast.makeText(
+            intentContext,
+            intentContext.getString(R.string.sharing_not_available),
+            Toast.LENGTH_LONG
+        ).show()
+    }
 }
 
 @Composable
