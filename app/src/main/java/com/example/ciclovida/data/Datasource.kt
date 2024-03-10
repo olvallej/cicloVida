@@ -1,5 +1,8 @@
 package com.example.ciclovida.data
 
+import com.example.ciclovida.Model.Dessert
+import com.example.ciclovida.R
+
 object Datasource {
     val dessertList = listOf(
         Dessert(R.drawable.cupcake, 5, 0),
