@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.ciclovida.Model.Dessert
 import com.example.ciclovida.ui.theme.CicloVidaTheme
 
 class MainActivity : ComponentActivity() {
@@ -59,7 +60,21 @@ class MainActivity : ComponentActivity() {
         Log.d(TAG, "onDestroy Called")
     }
 }
+fun determineDessertToShow(
+    desserts: List<Dessert>,
+    dessertsSold: Int
+): Dessert {
+    var dessertToShow = desserts.first()
+    for (dessert in desserts) {
+        if (dessertsSold >= dessert.startProductionAmount) {
+            dessertToShow = dessert
+        } else {
+            break
+        }
+    }
 
+    return dessertToShow
+}
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
